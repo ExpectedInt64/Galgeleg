@@ -3,4 +3,6 @@
     <string name="galgeleg">Galgeleg</string>
     <string name="v_lg_ord_og_spil">Vælg ord og spil</string>
     <string name="spil">Spil</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
