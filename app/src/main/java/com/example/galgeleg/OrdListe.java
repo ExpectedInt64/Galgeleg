@@ -9,7 +9,7 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-
+import java.util.concurrent.ExecutionException;
 
 
 public class OrdListe extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
@@ -20,8 +20,12 @@ public class OrdListe extends AppCompatActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         ArrayAdapter adapter = null;
         final OrdData ordData = new OrdData();
-        ordData.execute("");
-        while(!ordData.getDataReady()){
+        try {
+            ordData.execute("").get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         ordAL = ordData.getOrdListe();
         adapter = new ArrayAdapter(this, R.layout.ordliste, R.id.textView3, ordAL);
