@@ -1,7 +1,6 @@
 package com.example.galgeleg;
 
 
-import android.os.AsyncTask;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,24 +8,10 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class OrdData extends AsyncTask<String,Void,String> {
+public class OrdData {
     private ArrayList<String> ord = new ArrayList<>();
-    private boolean dataReady;
 
-    public OrdData(){
-        dataReady = false;
-    }
-
-    @Override
-    protected String doInBackground(String... strings) {
-        try {
-            loadOrdFraSheets();
-            dataReady = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+    public OrdData(){}
 
 
     private String loadURL(String url) throws IOException {
@@ -54,15 +39,11 @@ public class OrdData extends AsyncTask<String,Void,String> {
         System.out.println(ord.toString());
     }
 
-    public ArrayList<String> getOrdListe(){
+    public ArrayList<String> getOrdListe() throws IOException {
+        loadOrdFraSheets();
         if(!ord.isEmpty()){
             return ord;
         } else return null;
     }
-    public boolean getDataReady(){
-        return dataReady;
-    }
-    public void setDataReady(boolean state){
-        this.dataReady=state;
-    }
+
 }
