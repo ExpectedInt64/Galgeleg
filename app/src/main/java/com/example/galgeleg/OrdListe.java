@@ -2,6 +2,7 @@ package com.example.galgeleg;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -58,7 +60,12 @@ public class OrdListe extends AppCompatActivity implements View.OnClickListener,
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        //Toast.makeText(this, "Klik på " + position, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Klikket på: " + parent.getItemAtPosition(position),Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this,SpilActivity.class);
+        String ordet = (String) parent.getItemAtPosition(position);
+        i.putExtra("ValgtOrd", ordet);
+        startActivity(i);
     }
 
     class AsyncUpdate extends AsyncTask<String, Void, String> {
@@ -73,7 +80,7 @@ public class OrdListe extends AppCompatActivity implements View.OnClickListener,
         protected String doInBackground(String... strings) {
             final OrdData ordData = new OrdData();
             try {
-                ordAL = ordData.getOrdListe();
+                ordAL = ordData.hentOrdListe();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -86,7 +93,7 @@ public class OrdListe extends AppCompatActivity implements View.OnClickListener,
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
-            uiThread.postDelayed(opgave, 0);
+            uiThread.post(opgave);
         }
     }
 }

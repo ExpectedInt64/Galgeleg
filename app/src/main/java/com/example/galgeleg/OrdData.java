@@ -39,7 +39,7 @@ public class OrdData {
         System.out.println(ord.toString());
     }
 
-    public ArrayList<String> getOrdListe() throws IOException {
+    public ArrayList<String> hentOrdListe() throws IOException {
         loadOrdFraSheets();
         if(!ord.isEmpty()){
             return ord;

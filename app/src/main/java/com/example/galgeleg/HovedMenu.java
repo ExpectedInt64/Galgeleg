@@ -23,8 +23,12 @@ public class HovedMenu extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        if(v == btn_select_word){
-            Intent i = new Intent(this,OrdListe.class);
+        if (v == btn_select_word) {
+            Intent i = new Intent(this, OrdListe.class);
+            startActivity(i);
+        }
+        if (v == btn_start) {
+            Intent i = new Intent(this,SpilActivity.class);
             startActivity(i);
         }
     }
