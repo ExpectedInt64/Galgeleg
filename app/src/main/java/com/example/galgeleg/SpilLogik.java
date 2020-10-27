@@ -1,5 +1,6 @@
 package com.example.galgeleg;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class SpilLogik {
@@ -25,7 +26,11 @@ public class SpilLogik {
     }
 
     public boolean contains(String s){
-        return ord.contains(s);
+        ArrayList<String> tempListe = ord;
+        for(int i = 0; i < tempListe.size();i++){
+            tempListe.set(i,tempListe.get(i).toLowerCase());
+        }
+        return tempListe.contains(s);
     }
 
     private void checkOrd(String s) {
