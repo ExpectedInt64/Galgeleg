@@ -17,7 +17,7 @@ public class WinnerActivity extends AppCompatActivity {
         TextView attempts = findViewById(R.id.textView7);
         TextView ord = findViewById(R.id.textView10);
         attempts.setText(getIntent().getStringExtra("attempts"));
-        ord.setText(getIntent().getStringExtra("word"));
+        ord.setText("Ordet var: "+getIntent().getStringExtra("word"));
     }
     @Override
     public void onBackPressed() {
