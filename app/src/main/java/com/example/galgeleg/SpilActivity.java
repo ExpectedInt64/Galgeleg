@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.widget.Button;
 
 import androidx.gridlayout.widget.GridLayout;
 
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,12 +22,13 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class SpilActivity extends AppCompatActivity implements View.OnClickListener {
+public class SpilActivity extends AppCompatActivity {
 
     Executor bgThread = Executors.newSingleThreadExecutor();
     Handler uiThread = new Handler();
@@ -32,6 +36,7 @@ public class SpilActivity extends AppCompatActivity implements View.OnClickListe
     ProgressBar progressBar;
     TextView textView;
     SpilLogik spilLogik;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,7 @@ public class SpilActivity extends AppCompatActivity implements View.OnClickListe
         textView = findViewById(R.id.textView2);
         TextView attempts = findViewById(R.id.textView4);
         progressBar = findViewById(R.id.progressBar);
+        imageView = findViewById(R.id.imageView3);
         GridLayout gridLayout = (GridLayout) findViewById(R.id.gridLayout);
         gridLayout.setColumnCount(6);
         gridLayout.setRowCount(5);
@@ -63,6 +69,11 @@ public class SpilActivity extends AppCompatActivity implements View.OnClickListe
                                 spilLogik.tagTur(b.getText().toString().toLowerCase());
                                 attempts.setText("Forsøg:"+spilLogik.getGuess() +"/"+spilLogik.getMaxGuess());
                                 textView.setText(spilLogik.getGuessOrd());
+                                try {
+                                    setImage(spilLogik.getGuess());
+                                } catch (IllegalAccessException e) {
+                                    e.printStackTrace();
+                                }
                                 if (spilLogik.vundet()) {
                                     Toast.makeText(SpilActivity.this, "Du har vundet", Toast.LENGTH_SHORT).show();
                                     Intent i = new Intent(SpilActivity.this,WinnerActivity.class);
@@ -93,6 +104,15 @@ public class SpilActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             playWithOnlineWord();
         }
+    }
+
+    private void setImage(int img) throws IllegalAccessException {
+        ArrayList<Integer> hangman = new ArrayList<>();
+        Field[] fields = R.drawable.class.getFields();
+        for(int i = 0; i < fields.length; i++){
+            if(fields[i].getName().startsWith("hang")) hangman.add(fields[i].getInt(i));
+        }
+        imageView.setImageResource(hangman.get(img));
     }
 
     private void playWithOnlineWord() {
@@ -143,10 +163,5 @@ public class SpilActivity extends AppCompatActivity implements View.OnClickListe
                 grid.addView(b);
             }
         });
-    }
-
-    @Override
-    public void onClick(View v) {
-
     }
 }
