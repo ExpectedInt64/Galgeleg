@@ -1,28 +1,40 @@
 package com.example.galgeleg;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class SpilLogik {
-    ArrayList<String> ord = new ArrayList<>();
-    ArrayList<String> guessOrd = new ArrayList<>();
+    private ArrayList<String> ord = new ArrayList<>();
+    private ArrayList<String> guessOrd = new ArrayList<>();
+    private int guess = 0;
+    private int maxGuess = 6;
 
     public SpilLogik() {
     }
 
     public void setOrd(String s) {
         for (int i = 0; i < s.length(); i++) {
-            guessOrd.add("");
+            guessOrd.add("_ ");
             ord.add(Character.toString(s.charAt(i)));
         }
     }
 
-    public boolean tagTur(String s) {
+    public void setGuess(int g){
+        this.guess = g;
+    }
+
+    public void setMaxGuess(int maxGuess) {
+        this.maxGuess = maxGuess;
+    }
+
+    public int getMaxGuess(){
+        return maxGuess;
+    }
+
+    public void tagTur(String s) {
         if (!vundet()) {
             checkOrd(s);
-            return false;
+            if(!contains(s)) guess++;
         }
-        return true;
     }
 
     public boolean contains(String s){
@@ -33,6 +45,22 @@ public class SpilLogik {
         return tempListe.contains(s);
     }
 
+    public String getGuessOrd(){
+        String temp = "";
+        for(String s : guessOrd){
+            temp += s;
+        }
+        return temp;
+    }
+
+    public String getOrd(){
+        String temp = "";
+        for(String s : ord){
+            temp += s;
+        }
+        return temp;
+    }
+
     private void checkOrd(String s) {
         for (int i = 0; i < ord.size(); i++) {
             if (ord.get(i).toLowerCase().equals(s)) {
@@ -40,6 +68,10 @@ public class SpilLogik {
             }
         }
         System.out.println("Gættet ord: " + guessOrd);
+    }
+
+    public int getGuess(){
+        return guess;
     }
 
     public boolean vundet() {

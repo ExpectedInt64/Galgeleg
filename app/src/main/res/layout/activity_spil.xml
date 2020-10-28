@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="51dp"
         android:layout_marginBottom="178dp"
-        android:text="TextView"
+        android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/gridLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,4 +43,12 @@
         app:rowCount="6">
 
     </androidx.gridlayout.widget.GridLayout>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forsøg: "
+        tools:layout_editor_absoluteX="18dp"
+        tools:layout_editor_absoluteY="20dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

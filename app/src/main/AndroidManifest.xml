@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SpilActivity"></activity>
+        <activity android:name=".LooserActivity"></activity>
+        <activity android:name=".WinnerActivity" />
+        <activity android:name=".SpilActivity" />
         <activity android:name=".HovedMenu">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
