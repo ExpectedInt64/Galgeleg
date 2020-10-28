@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 
 public class WinnerActivity extends AppCompatActivity {
 
