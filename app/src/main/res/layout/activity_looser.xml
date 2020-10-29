@@ -30,7 +30,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8"
-        app:srcCompat="@drawable/cake"
+        app:srcCompat="@drawable/cake2"
         tools:srcCompat="@drawable/cake2" />
 
     <TextView

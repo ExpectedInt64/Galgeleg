@@ -133,7 +133,10 @@ public class SpilActivity extends AppCompatActivity {
             });
             System.out.println("Ord hentet: " + ordet);
             spilLogik.setOrd(ordet);
-            textView.setText(spilLogik.getGuessOrd());
+            uiThread.post(()->{
+                textView.setText(spilLogik.getGuessOrd());
+            });
+
         });
     }
 

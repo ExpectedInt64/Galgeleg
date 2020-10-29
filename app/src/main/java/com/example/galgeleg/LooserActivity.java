@@ -21,8 +21,8 @@ public class LooserActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Log.d("Tilbage:", "onBackPressed Called");
         Intent i = new Intent(LooserActivity.this,HovedMenu.class);
+        Log.d("Tilbage:", "onBackPressed Called");
         startActivity(i);
     }
 }
