@@ -1,0 +1,34 @@
+Index: app/src/main/java/com/example/galgeleg/OrdListe.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.galgeleg;\r\n\r\nimport android.app.Dialog;\r\nimport android.app.ProgressDialog;\r\nimport android.os.AsyncTask;\r\nimport android.os.Bundle;\r\nimport android.os.Handler;\r\nimport android.os.Looper;\r\nimport android.view.View;\r\nimport android.widget.AdapterView;\r\nimport android.widget.ArrayAdapter;\r\nimport android.widget.ListView;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport java.io.IOException;\r\nimport java.util.ArrayList;\r\n\r\n\r\npublic class OrdListe extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {\r\n    ArrayList<String> ordAL = new ArrayList<>();\r\n    Handler uiThread = new Handler(Looper.getMainLooper());\r\n    Dialog dialog = null;\r\n\r\n    ArrayAdapter adapter = null;\r\n    ListView listView;\r\n    Runnable opgave = null;\r\n\r\n    @Override\r\n    public void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        dialog = new ProgressDialog(this);\r\n        ordAL.add(\"Henter data...\");\r\n        adapter = new ArrayAdapter(this, R.layout.ordliste, R.id.textView3, ordAL);\r\n        final ListView listView = new ListView(this);\r\n        listView.setOnItemClickListener(this);\r\n        listView.setAdapter(adapter);\r\n        AsyncUpdate asyncUpdate = new AsyncUpdate();\r\n        asyncUpdate.execute();\r\n\r\n        opgave = () -> {\r\n            adapter = new ArrayAdapter(this, R.layout.ordliste, R.id.textView3, ordAL);\r\n            listView.setAdapter(adapter);\r\n            setContentView(listView);\r\n            System.out.println(\"Opdaterer UI\");\r\n        };\r\n\r\n        setContentView(listView);\r\n\r\n\r\n    }\r\n\r\n\r\n    @Override\r\n    public void onClick(View v) {\r\n\r\n    }\r\n\r\n    @Override\r\n    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {\r\n\r\n    }\r\n\r\n    class AsyncUpdate extends AsyncTask<String, Void, String> {\r\n\r\n        @Override\r\n        protected void onPreExecute() {\r\n            dialog.setTitle(\"Henter data!\");\r\n            dialog.show();\r\n        }\r\n\r\n        @Override\r\n        protected String doInBackground(String... strings) {\r\n            final OrdData ordData = new OrdData();\r\n            try {\r\n                ordAL = ordData.getOrdListe();\r\n            } catch (IOException e) {\r\n                e.printStackTrace();\r\n            }\r\n            return null;\r\n        }\r\n\r\n        @Override\r\n        protected void onPostExecute(String s) {\r\n            System.out.println(\"Ord data hentet!\");\r\n            if (dialog.isShowing()) {\r\n                dialog.dismiss();\r\n            }\r\n            uiThread.postDelayed(opgave, 0);\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/galgeleg/OrdListe.java	(revision 47797a850f6a639c7538103dda603c92424f0b2c)
++++ app/src/main/java/com/example/galgeleg/OrdListe.java	(date 1602601039119)
+@@ -17,6 +17,7 @@
+ import java.util.ArrayList;
+ 
+ 
++
+ public class OrdListe extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+     ArrayList<String> ordAL = new ArrayList<>();
+     Handler uiThread = new Handler(Looper.getMainLooper());
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"1.8\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision 47797a850f6a639c7538103dda603c92424f0b2c)
++++ .idea/gradle.xml	(date 1603885018577)
+@@ -15,6 +15,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
