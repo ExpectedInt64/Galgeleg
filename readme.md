@@ -28,13 +28,15 @@ I denne opgave er SOLID principperne fulgt så godt som muligt hvor det giver me
   * En klasse skal kun have et ansvar, OrdData henter f.eks. kun data, SpilActivity har kun noget med SpilActivity at gøre og SpilLogik har kun noget med SpilLogik at gøre.
 * Open-closed principle
   * Open-closed princippet er brugt til at lave brugergrænsefladen. Klassen AppCompatActivity (Arver fra FragmentActivity og implementerer flere interfaces) bruges til alt med brugergrænsefladen.
+  * F.eks OrdListe implementerer AdapterView.OnItemClickListener, så man kan lytte på om der trykkes på en af ordne i listen.
 * Liskov substitution principle
-  * Programmet bryder ikke ISA relationer.
-* 
+  * Ved at bruge extends AppCompatActivity, laves en onCreate() som gør at klassen kan bruges som UI på en android telefon. Alle apps med AppCompatActivity kan derfor skiftes mellem.
+* Interface Segregation principle
+  * Der ses igen på brugergrænsefladen og OrdListen, der er ikke unødvendige interfaces, og de interfaces som bruges forklarer sig selv og er generelt små.
+* Dependency inversion principle
+  * Hver activity skal bruge onClick for knapper i dette program, men de skal ikke alle gøre det samme. Der arves derfor fra View.OnClickListener, som gør at programmet tager brug af Dependency inversion princippet.
 
 
-## Links:
+## UML
 
-* https://en.wikipedia.org/wiki/SOLID
-* https://docs.google.com/document/d/1d0u0hvXTExwkC6N2B93xA4gS5wVxA3DIVd8bYe2efyk/edit#
-* https://app.diagrams.net/#G18-0J07KPwafXg03YD8tcGWg_-_m7k2d4
+![UML](GalgeUML.png)
