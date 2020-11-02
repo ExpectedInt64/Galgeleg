@@ -20,13 +20,12 @@ import java.util.ArrayList;
 
 
 
-public class OrdListe extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class OrdListe extends AppCompatActivity implements  AdapterView.OnItemClickListener {
     ArrayList<String> ordAL = new ArrayList<>();
     Handler uiThread = new Handler(Looper.getMainLooper());
     Dialog dialog = null;
 
     ArrayAdapter adapter = null;
-    ListView listView;
     Runnable opgave = null;
 
     @Override
@@ -54,10 +53,6 @@ public class OrdListe extends AppCompatActivity implements View.OnClickListener,
     }
 
 
-    @Override
-    public void onClick(View v) {
-
-    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
