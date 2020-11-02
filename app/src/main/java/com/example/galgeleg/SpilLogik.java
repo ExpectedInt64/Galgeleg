@@ -18,14 +18,6 @@ public class SpilLogik {
         }
     }
 
-    public void setGuess(int g){
-        this.guess = g;
-    }
-
-    public void setMaxGuess(int maxGuess) {
-        this.maxGuess = maxGuess;
-    }
-
     public int getMaxGuess(){
         return maxGuess;
     }
