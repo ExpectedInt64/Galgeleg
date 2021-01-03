@@ -37,7 +37,6 @@ public class HovedMenu extends AppCompatActivity implements View.OnClickListener
         btn_select_word = (Button) findViewById(R.id.btn_select_word);
         btn_start = (Button) findViewById(R.id.btn_start);
         btn_add_word = (Button) findViewById(R.id.btn_userWord);
-        btn_remove_word = (Button) findViewById(R.id.btn_remove_word);
         btn_select_word.setOnClickListener(this);
         btn_start.setOnClickListener(this);
         btn_add_word.setOnClickListener(this);
