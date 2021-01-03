@@ -5,4 +5,6 @@
     <string name="spil">Spil</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tilf_j_ord">Tilføj ord</string>
+    <string name="hint_ord">Indtast ord der skal tilføjes</string>
 </resources>
