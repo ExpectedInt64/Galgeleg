@@ -40,7 +40,7 @@ public class SpilActivity extends AppCompatActivity {
     TextView textView;
     SpilLogik spilLogik;
     ImageView imageView;
-    SharedPreferences lokalOrd;
+    SharedPreferences appSharedPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,8 @@ public class SpilActivity extends AppCompatActivity {
         String sArray[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Æ", "Ø", "Å", ""};
         createButtons(sArray);
         addButtonsToGrid(gridLayout);
+        appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(this.getApplicationContext());
         spilLogik = new SpilLogik();
         attempts.setText("Forsøg:" + spilLogik.getGuess() + "/" + spilLogik.getMaxGuess());
         for (Button b : buttons) {
@@ -150,11 +152,16 @@ public class SpilActivity extends AppCompatActivity {
 
 
     private void addLocalWord(ArrayList<String> localWords){
-        SharedPreferences appSharedPrefs = PreferenceManager
-                .getDefaultSharedPreferences(this.getApplicationContext());
         Gson gson = new Gson();
         String json = appSharedPrefs.getString("ordListe", "");
-        localWords.addAll(gson.fromJson(json, new TypeToken<ArrayList<String>>(){}.getType()));
+        ArrayList<String> newWords = gson.fromJson(json, new TypeToken<ArrayList<String>>(){}.getType());
+        if(newWords.contains(localWords)){
+            for(int i = 0; i < newWords.size(); i++){
+                if(!localWords.contains(newWords.get(i))) localWords.add(newWords.get(i));
+            }
+        } else {
+            localWords.addAll(newWords);
+        }
     }
 
     private void createButton(String s) {

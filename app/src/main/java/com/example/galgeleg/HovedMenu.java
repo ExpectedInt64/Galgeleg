@@ -24,7 +24,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class HovedMenu extends AppCompatActivity implements View.OnClickListener {
-    Button btn_select_word, btn_start, btn_add_word,btn_remove_word;
+    Button btn_select_word, btn_start, btn_add_word;
     AlertDialog.Builder builder;
     SharedPreferences appSharedPrefs;
     SharedPreferences.Editor prefsEditor;
@@ -40,7 +40,6 @@ public class HovedMenu extends AppCompatActivity implements View.OnClickListener
         btn_select_word.setOnClickListener(this);
         btn_start.setOnClickListener(this);
         btn_add_word.setOnClickListener(this);
-        btn_remove_word.setOnClickListener(this);
         builder = new AlertDialog.Builder(this);
         appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(this.getApplicationContext());
