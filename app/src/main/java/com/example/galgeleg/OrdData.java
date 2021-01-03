@@ -1,7 +1,6 @@
 package com.example.galgeleg;
 
 
-import android.content.SharedPreferences;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -42,9 +41,6 @@ public class OrdData {
         System.out.println(ord.toString());
     }
 
-    public void addBrugerOrd(String ord){
-        this.ord.add(ord);
-    }
 
 
     public ArrayList<String> hentOrdListe() throws IOException {

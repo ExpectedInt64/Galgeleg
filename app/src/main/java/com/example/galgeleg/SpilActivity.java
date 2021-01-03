@@ -3,9 +3,11 @@ package com.example.galgeleg;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,10 +19,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -33,6 +40,7 @@ public class SpilActivity extends AppCompatActivity {
     TextView textView;
     SpilLogik spilLogik;
     ImageView imageView;
+    SharedPreferences lokalOrd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +57,7 @@ public class SpilActivity extends AppCompatActivity {
         createButtons(sArray);
         addButtonsToGrid(gridLayout);
         spilLogik = new SpilLogik();
-        attempts.setText("Forsøg:"+spilLogik.getGuess() +"/"+spilLogik.getMaxGuess());
+        attempts.setText("Forsøg:" + spilLogik.getGuess() + "/" + spilLogik.getMaxGuess());
         for (Button b : buttons) {
             if (b.getText() != "") {
                 b.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +71,7 @@ public class SpilActivity extends AppCompatActivity {
                                 int color = (spilLogik.contains(((String) b.getText()).toLowerCase()) ? Color.GREEN : Color.GRAY);
                                 b.setBackgroundColor(color);
                                 spilLogik.tagTur(b.getText().toString().toLowerCase());
-                                attempts.setText("Forsøg:"+spilLogik.getGuess() +"/"+spilLogik.getMaxGuess());
+                                attempts.setText("Forsøg:" + spilLogik.getGuess() + "/" + spilLogik.getMaxGuess());
                                 textView.setText(spilLogik.getGuessOrd());
                                 try {
                                     setImage(spilLogik.getGuess());
@@ -72,15 +80,15 @@ public class SpilActivity extends AppCompatActivity {
                                 }
                                 if (spilLogik.vundet()) {
                                     Toast.makeText(SpilActivity.this, "Du har vundet", Toast.LENGTH_SHORT).show();
-                                    Intent i = new Intent(SpilActivity.this,WinnerActivity.class);
-                                    i.putExtra("attempts", spilLogik.getGuess()+"");
-                                    i.putExtra("word",spilLogik.getOrd());
+                                    Intent i = new Intent(SpilActivity.this, WinnerActivity.class);
+                                    i.putExtra("attempts", spilLogik.getGuess() + "");
+                                    i.putExtra("word", spilLogik.getOrd());
                                     startActivity(i);
-                                } else if(spilLogik.getGuess() >= spilLogik.getMaxGuess()){
+                                } else if (spilLogik.getGuess() >= spilLogik.getMaxGuess()) {
                                     Toast.makeText(SpilActivity.this, "Du har tabt", Toast.LENGTH_SHORT).show();
-                                    Intent i = new Intent(SpilActivity.this,LooserActivity.class);
-                                    i.putExtra("attempts", spilLogik.getGuess()+"");
-                                    i.putExtra("word",spilLogik.getOrd());
+                                    Intent i = new Intent(SpilActivity.this, LooserActivity.class);
+                                    i.putExtra("attempts", spilLogik.getGuess() + "");
+                                    i.putExtra("word", spilLogik.getOrd());
                                     startActivity(i);
                                 }
                             }
@@ -105,8 +113,8 @@ public class SpilActivity extends AppCompatActivity {
     private void setImage(int img) throws IllegalAccessException {
         ArrayList<Integer> hangman = new ArrayList<>();
         Field[] fields = R.drawable.class.getFields();
-        for(int i = 0; i < fields.length; i++){
-            if(fields[i].getName().startsWith("hang")) hangman.add(fields[i].getInt(i));
+        for (int i = 0; i < fields.length; i++) {
+            if (fields[i].getName().startsWith("hang")) hangman.add(fields[i].getInt(i));
         }
         imageView.setImageResource(hangman.get(img));
     }
@@ -124,6 +132,7 @@ public class SpilActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            addLocalWord(ord);
             Random rand = new Random();
             if (ord.size() < 1) ord.add("Internet");
             String ordet = ord.get(rand.nextInt(ord.size()));
@@ -133,10 +142,19 @@ public class SpilActivity extends AppCompatActivity {
             });
             System.out.println("Ord hentet: " + ordet);
             spilLogik.setOrd(ordet);
-            uiThread.post(()-> {
+            uiThread.post(() -> {
                 textView.setText(spilLogik.getGuessOrd());
-                    });
+            });
         });
+    }
+
+
+    private void addLocalWord(ArrayList<String> localWords){
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(this.getApplicationContext());
+        Gson gson = new Gson();
+        String json = appSharedPrefs.getString("ordListe", "");
+        localWords.addAll(gson.fromJson(json, new TypeToken<ArrayList<String>>(){}.getType()));
     }
 
     private void createButton(String s) {

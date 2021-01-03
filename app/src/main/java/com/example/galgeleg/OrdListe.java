@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +16,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,6 +63,7 @@ public class OrdListe extends AppCompatActivity implements  AdapterView.OnItemCl
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //Toast.makeText(this, "Klik på " + position, Toast.LENGTH_SHORT).show();
         Toast.makeText(this,"Klikket på: " + parent.getItemAtPosition(position),Toast.LENGTH_SHORT).show();
+
         Intent i = new Intent(this,SpilActivity.class);
         String ordet = (String) parent.getItemAtPosition(position);
         i.putExtra("ValgtOrd", ordet);
@@ -81,6 +86,7 @@ public class OrdListe extends AppCompatActivity implements  AdapterView.OnItemCl
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            addLocalWord(ordAL);
             return null;
         }
 
@@ -92,5 +98,13 @@ public class OrdListe extends AppCompatActivity implements  AdapterView.OnItemCl
             }
             uiThread.post(opgave);
         }
+    }
+
+    private void addLocalWord(ArrayList<String> localWords){
+        SharedPreferences appSharedPrefs = PreferenceManager
+                .getDefaultSharedPreferences(this.getApplicationContext());
+        Gson gson = new Gson();
+        String json = appSharedPrefs.getString("ordListe", "");
+        localWords.addAll(gson.fromJson(json, new TypeToken<ArrayList<String>>(){}.getType()));
     }
 }
