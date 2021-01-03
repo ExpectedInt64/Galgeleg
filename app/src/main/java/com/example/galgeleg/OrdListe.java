@@ -34,7 +34,6 @@ public class OrdListe extends AppCompatActivity implements  AdapterView.OnItemCl
     ArrayList<String> ordAL = new ArrayList<>();
     Handler uiThread = new Handler(Looper.getMainLooper());
     Dialog dialog = null;
-    AlertDialog.Builder builder;
     ArrayAdapter adapter = null;
     Runnable opgave = null;
     SharedPreferences appSharedPrefs;
@@ -45,7 +44,7 @@ public class OrdListe extends AppCompatActivity implements  AdapterView.OnItemCl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        builder = new AlertDialog.Builder(this);
+
         dialog = new ProgressDialog(this);
         appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(this.getApplicationContext());
@@ -78,7 +77,9 @@ public class OrdListe extends AppCompatActivity implements  AdapterView.OnItemCl
         //Toast.makeText(this, "Klik på " + position, Toast.LENGTH_SHORT).show();
         Toast.makeText(this,"Klikket på: " + parent.getItemAtPosition(position),Toast.LENGTH_SHORT).show();
         OrdListe ordListe = this;
-        builder.setTitle("Valgt ord");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.create();
+        builder.setTitle("Valgt ord: "+(String)parent.getItemAtPosition(position));
         View viewInflated = LayoutInflater.from(this).inflate(R.layout.select_word, (ViewGroup) findViewById(android.R.id.content).getRootView(), false);
         builder.setView(viewInflated);
         builder.setPositiveButton("Spil med ord", new DialogInterface.OnClickListener() {

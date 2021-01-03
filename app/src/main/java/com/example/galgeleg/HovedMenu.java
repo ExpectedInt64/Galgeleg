@@ -92,6 +92,9 @@ public class HovedMenu extends AppCompatActivity implements View.OnClickListener
         Gson gson = new Gson();
         String json = appSharedPrefs.getString("ordListe","");
         ordListe = gson.fromJson(json, new TypeToken<ArrayList<String>>(){}.getType());
+        if(ordListe == null){
+            ordListe = new ArrayList<String>();
+        }
         ordListe.add(ord);
         System.out.println(json);
         json = gson.toJson(ordListe);

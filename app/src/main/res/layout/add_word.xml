@@ -14,6 +14,8 @@
             android:id="@+id/input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
+            android:digits="qwertyuiopåasdfghjklæøzxcvbnmQWERTYUIOPÅASDFGHJKLÆØZXCVBNM"
             android:imeOptions="actionDone"
             android:hint="@string/hint_ord" />
     </com.google.android.material.textfield.TextInputLayout>
