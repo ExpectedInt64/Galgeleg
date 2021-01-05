@@ -11,17 +11,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LooserActivity"></activity>
-        <activity android:name=".WinnerActivity" />
-        <activity android:name=".SpilActivity" />
-        <activity android:name=".HovedMenu">
+        <activity
+            android:name=".LooserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".WinnerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SpilActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".HovedMenu"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".OrdListe" />
+        <activity
+            android:name=".OrdListe"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
