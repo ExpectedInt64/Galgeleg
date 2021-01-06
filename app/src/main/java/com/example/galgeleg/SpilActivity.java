@@ -2,8 +2,10 @@ package com.example.galgeleg;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -13,8 +15,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import androidx.gridlayout.widget.GridLayout;
@@ -55,8 +60,8 @@ public class SpilActivity extends AppCompatActivity {
     private float mAccel;
     private float mAccelCurrent;
     private float mAccelLast;
-
     private long lastShakeTime = 0;
+    private ArrayList<Integer> screenSize;
 
 
     @Override
@@ -73,13 +78,14 @@ public class SpilActivity extends AppCompatActivity {
         mAccel = 0.00f;
         mAccelCurrent = SensorManager.GRAVITY_EARTH;
         mAccelLast = SensorManager.GRAVITY_EARTH;
-
+        screenSize = getScreenResolution(this);
         GridLayout gridLayout = (GridLayout) findViewById(R.id.gridLayout);
         gridLayout.setColumnCount(6);
         gridLayout.setRowCount(5);
         String sArray[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Æ", "Ø", "Å", ""};
         createButtons(sArray);
         addButtonsToGrid(gridLayout);
+
         appSharedPrefs = PreferenceManager
                 .getDefaultSharedPreferences(this.getApplicationContext());
         spilLogik = new SpilLogik();
@@ -192,10 +198,31 @@ public class SpilActivity extends AppCompatActivity {
 
     private void createButton(String s) {
         Button button = new Button(SpilActivity.this);
-        button.setMinimumWidth(120);
-        button.setMinimumHeight(120);
-        button.setWidth(15);
-        button.setHeight(30);
+            if(screenSize.get(0) < 600){
+                button.setMinimumWidth(60);
+                button.setMinimumHeight(60);
+                button.setMaxWidth(80);
+                button.setMaxHeight(80);
+                button.setWidth(15);
+                button.setHeight(30);
+                System.out.println("Screensize Small: "+ screenSize);
+            }else if(screenSize.get(0) < 800 && screenSize.get(0) >=600){
+                button.setMinimumWidth(80);
+                button.setMinimumHeight(80);
+                button.setMaxWidth(80);
+                button.setMaxHeight(80);
+                button.setWidth(15);
+                button.setHeight(30);
+                System.out.println("Screensize Medium: "+ screenSize);
+            }else{
+                button.setMinimumWidth(120);
+                button.setMinimumHeight(120);
+                button.setMaxWidth(80);
+                button.setMaxHeight(80);
+                System.out.println("Screensize Large: "+ screenSize);
+                button.setWidth(15);
+                button.setHeight(30);
+            }
         button.setText(s);
         buttons.add(button);
     }
@@ -212,6 +239,21 @@ public class SpilActivity extends AppCompatActivity {
                 grid.addView(b);
             }
         });
+    }
+
+    private static ArrayList<Integer> getScreenResolution(Context context)
+    {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+        ArrayList<Integer> wh = new ArrayList<>();
+        wh.add(width);
+        wh.add(height);
+
+        return wh;
     }
 
     //https://stackoverflow.com/questions/2317428/how-to-refresh-app-upon-shaking-the-device
